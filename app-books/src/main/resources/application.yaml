@@ -1,0 +1,11 @@
+server:
+  port: 8080
+javax:
+  sql:
+    DataSource:
+      DistribuidoDS:
+        dataSourceClassName: org.postgresql.ds.PGSimpleDataSource
+        dataSource:
+          url: jdbc:postgresql://localhost:5432/distribuida-db
+          user: docker
+          password: docker
