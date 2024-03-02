@@ -20,25 +20,36 @@ java {
 val helidonversion = " 4.0.5"
 
 dependencies {
-    implementation(enforcedPlatform("io.helidon:helidon-dependencies:${helidonversion}"))
-    implementation("io.helidon.microprofile.bundles:helidon-microprofile")
-    implementation("org.glassfish.jersey.media:jersey-media-json-binding")
+    // Helidon
+    implementation(enforcedPlatform("io.helidon:helidon-dependencies:${helidonversion}")) // Helidon dependencias base
+    implementation("io.helidon.microprofile.bundles:helidon-microprofile") // Helidon MicroProfile bundle
+    implementation("io.helidon.integrations.cdi:helidon-integrations-cdi-jpa") // Integración CDI para JPA
+    implementation("io.helidon.integrations.cdi:helidon-integrations-cdi-jta-weld") // Integración CDI para JTA con Weld
+    implementation("io.helidon.integrations.cdi:helidon-integrations-cdi-datasource-hikaricp") // Integración CDI para HikariCP
+    implementation("io.helidon.integrations.cdi:helidon-integrations-cdi-hibernate:2.0.0") // Integración CDI para Hibernate
+    implementation("io.helidon.microprofile.jwt:helidon-microprofile-jwt-auth:4.0.5") // Autenticación JWT para MicroProfile
 
-    implementation("io.helidon.integrations.cdi:helidon-integrations-cdi-jpa")
-    implementation("io.helidon.integrations.cdi:helidon-integrations-cdi-jta-weld")
-    implementation("io.helidon.integrations.cdi:helidon-integrations-cdi-datasource-hikaricp")
-    implementation("io.helidon.integrations.cdi:helidon-integrations-cdi-hibernate:2.0.0")
-    implementation("org.postgresql:postgresql:42.2.7")
+    // Dependencias de Jersey
+    implementation("org.glassfish.jersey.media:jersey-media-json-binding") // Jersey JSON Binding para serialización/deserialización JSON
 
-    // https://mvnrepository.com/artifact/jakarta.enterprise/jakarta.enterprise.cdi-api
-    implementation("jakarta.enterprise:jakarta.enterprise.cdi-api:4.1.0-M1")
+    // Dependencias de CDI
+    implementation("jakarta.enterprise:jakarta.enterprise.cdi-api:4.1.0-M1") // CDI API
 
-    // https://mvnrepository.com/artifact/io.helidon.microprofile.jwt/helidon-microprofile-jwt-auth
-    implementation("io.helidon.microprofile.jwt:helidon-microprofile-jwt-auth:4.0.5")
+    // Dependencias de PostgreSQL
+    implementation("org.postgresql:postgresql:42.2.7") // PostgreSQL JDBC driver
 
+    // Dependencias de Jandex
+    runtimeOnly("org.jboss:jandex") // Jandex para indexación de clases en tiempo de ejecución
 
-    runtimeOnly("org.jboss:jandex")
-    runtimeOnly("jakarta.activation:jakarta.activation-api")
+    // Dependencias de Activación Jakarta
+    runtimeOnly("jakarta.activation:jakarta.activation-api") // API de activación Jakarta
+
+    // Dependencias de MicroProfile
+    implementation("org.eclipse.microprofile.config:microprofile-config-api") // MicroProfile Config API
+    implementation("org.eclipse.microprofile.rest.client:microprofile-rest-client-api") // MicroProfile Rest Client API
+    implementation("io.helidon.microprofile.health:helidon-microprofile-health:4.0.5") // MicroProfile Health API
+    implementation("io.helidon.microprofile.openapi:helidon-microprofile-openapi:4.0.5") // MicroProfile OpenAPI API
+
 }
 
 tasks.test {

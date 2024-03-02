@@ -1,0 +1,35 @@
+version: '3'
+services:
+  consul-server:
+    image: consul:1.15
+    command: 'agent -server -bootstrap-expect=1 -ui -bind=0.0.0.0 -client=0.0.0.0'
+    ports:
+      - "8500:8500"
+
+  authors-service:
+    container_name: authors-service
+    image: app-authors
+    ports:
+      - 8080:8080
+    links:
+      - consul-server
+
+  books-service:
+    container_name: books-service
+    image: app-books
+    environment:
+      APP_AUTHORS_URL: http://authors-service:8080
+    ports:
+      - 8090:8090
+    links:
+      - consul-server
+
+
+  gateway-service:
+    container_name: gateway-service
+    image: app-gateway
+
+    ports:
+      - 9090:9090
+    links:
+      - consul-server

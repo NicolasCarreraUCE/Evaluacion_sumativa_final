@@ -1,19 +1,28 @@
-package com.distribuida.db;
+package com.distribuida.dto;
 
-import javax.persistence.*;
+import com.distribuida.db.Book;
+
 import java.math.BigDecimal;
 
-@Entity
-@Table(name="books")
-public class Book {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+public class BookDto {
+
     private Integer id;
     private String isbn;
     private String title;
     private BigDecimal price;
-    @Column(name="author_id")
-    private Integer authorId;
+
+    private String author;
+
+    public static BookDto from(Book obj) {
+        BookDto ret = new BookDto();
+
+        ret.setId(obj.getId());
+        ret.setIsbn(obj.getIsbn());
+        ret.setPrice(obj.getPrice());
+        ret.setTitle(obj.getTitle());
+
+        return ret;
+    }
 
     public Integer getId() {
         return id;
@@ -47,11 +56,11 @@ public class Book {
         this.price = price;
     }
 
-    public Integer getAuthorId() {
-        return authorId;
+    public String getAuthor() {
+        return author;
     }
 
-    public void setAuthorId(Integer authorId) {
-        this.authorId = authorId;
+    public void setAuthor(String author) {
+        this.author = author;
     }
 }

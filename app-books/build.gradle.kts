@@ -1,5 +1,6 @@
 plugins {
     id("java")
+    id("org.kordamp.gradle.jandex") version "0.6.0"
 }
 
 group = "org.example"
@@ -7,6 +8,8 @@ version = "unspecified"
 
 repositories {
     mavenCentral()
+    mavenLocal()
+    gradlePluginPortal()
 }
 
 java {
@@ -17,24 +20,36 @@ java {
 val helidonversion = " 4.0.5"
 
 dependencies {
-    implementation(enforcedPlatform("io.helidon:helidon-dependencies:${helidonversion}"))
-    implementation("io.helidon.microprofile.bundles:helidon-microprofile")
-    implementation("org.glassfish.jersey.media:jersey-media-json-binding")
+    // Helidon
+    implementation(enforcedPlatform("io.helidon:helidon-dependencies:${helidonversion}")) // Helidon dependencias base
+    implementation("io.helidon.microprofile.bundles:helidon-microprofile") // Helidon MicroProfile bundle
+    implementation("io.helidon.integrations.cdi:helidon-integrations-cdi-jpa") // Integración CDI para JPA
+    implementation("io.helidon.integrations.cdi:helidon-integrations-cdi-jta-weld") // Integración CDI para JTA con Weld
+    implementation("io.helidon.integrations.cdi:helidon-integrations-cdi-datasource-hikaricp") // Integración CDI para HikariCP
+    implementation("io.helidon.integrations.cdi:helidon-integrations-cdi-hibernate:2.0.0") // Integración CDI para Hibernate
+    implementation("io.helidon.microprofile.jwt:helidon-microprofile-jwt-auth:4.0.5") // Autenticación JWT para MicroProfile
 
-    runtimeOnly("org.jboss:jandex")
-    runtimeOnly("jakarta.activation:jakarta.activation-api")
+    // Dependencias de Jersey
+    implementation("org.glassfish.jersey.media:jersey-media-json-binding") // Jersey JSON Binding para serialización/deserialización JSON
 
-    // JPA and Hibernate
-    implementation("jakarta.persistence:jakarta.persistence-api:2.2.3")
-    implementation("org.hibernate:hibernate-core:5.6.1.Final")
-    implementation("org.postgresql:postgresql:42.3.1")
+    // Dependencias de CDI
+    implementation("jakarta.enterprise:jakarta.enterprise.cdi-api:4.1.0-M1") // CDI API
 
-    // CDI (Contexts and Dependency Injection)
-    implementation("javax.enterprise:cdi-api:2.0")
-    implementation("org.eclipse.microprofile.cdi:microprofile-cdi-api:4.0")
+    // Dependencias de PostgreSQL
+    implementation("org.postgresql:postgresql:42.2.7") // PostgreSQL JDBC driver
 
-    // JTA (Java Transaction API)
-    implementation("javax.transaction:javax.transaction-api:1.3")
+    // Dependencias de Jandex
+    runtimeOnly("org.jboss:jandex") // Jandex para indexación de clases en tiempo de ejecución
+
+    // Dependencias de Activación Jakarta
+    runtimeOnly("jakarta.activation:jakarta.activation-api") // API de activación Jakarta
+
+    // Dependencias de MicroProfile
+    implementation("org.eclipse.microprofile.config:microprofile-config-api") // MicroProfile Config API
+    implementation("org.eclipse.microprofile.rest.client:microprofile-rest-client-api") // MicroProfile Rest Client API
+    implementation("io.helidon.microprofile.health:helidon-microprofile-health:4.0.5") // MicroProfile Health API
+    implementation("io.helidon.microprofile.openapi:helidon-microprofile-openapi:4.0.5") // MicroProfile OpenAPI API
+
 }
 
 tasks.test {

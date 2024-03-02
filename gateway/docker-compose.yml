@@ -1,0 +1,10 @@
+version: '1'
+gateway:
+  image: library/gateway
+  ports:
+    8080:8080
+  environment:
+    - JAVA_TOOL_OPTIONS=
+      -DCONSUL_HOST=discovery
+  depends_on:
+    - discovery
