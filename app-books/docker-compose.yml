@@ -1,0 +1,15 @@
+# docker-compose up
+version: '3'
+services:
+  db-postgres:
+    image: library/postgres:latest
+    ports:
+      - "5432:5432"
+    container_name: db-postgres
+    environment:
+      - POSTGRES_DB= db-postgres
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_USER=docker
+    volumes:
+      - ./data:/var/lib/postgresql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
